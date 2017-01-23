@@ -364,8 +364,11 @@ namespace DotNetTor.SocksPort
 				SocksConnection connection;
 				if(_Connections.TryGetValue(uri.AbsoluteUri, out connection))
 				{
-					connection.AddReference();
-					_References.Add(uri);
+					if(!_References.Contains(uri))
+					{
+						connection.AddReference();
+						_References.Add(uri);
+					}
 					return connection;
 				}
 				connection = new SocksConnection();
